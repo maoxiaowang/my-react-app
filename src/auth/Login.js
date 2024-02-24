@@ -5,9 +5,11 @@ import Button from '@mui/material/Button';
 import {Backdrop, CircularProgress, Grid, Slide, Snackbar} from "@mui/material";
 import {styled} from '@mui/system';
 import './Login.css'
-import axios, {LOGIN_URL} from '../base/api'
+import axiosInstance from '../base/axios'
 import Alert from '@mui/material/Alert';
 import { useNavigate } from 'react-router-dom';
+import API from "../base/config/api";
+import ROUTES from "../base/config/route";
 
 const InputContainer = styled('div')({
     marginBottom: '1rem'
@@ -18,7 +20,6 @@ const LoginPage = () => {
     const [loading, setLoading] = React.useState(false);
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
     const [snackbarMessage, setSnackbarMessage] = React.useState('');
-    const [snackbarSeverity, setSnackbarSeverity] = React.useState('error');
     const navigate = useNavigate();
 
     const formik = useFormik({
@@ -29,12 +30,12 @@ const LoginPage = () => {
         onSubmit: async (values)     => {
             setLoading(true)
             try {
-                const response = await axios.post(LOGIN_URL, {
+                const response = await axiosInstance.post(API.auth.login, {
                     username: values.username,
                     password: values.password,
-                });
+                }, {withCredentials: true});
                 console.log('Login successful', response.data);
-                navigate('/blog/articles',  { replace: true });
+                navigate(ROUTES.blog.articlePage, {replace: true});
             } catch (error) {
                 setSnackbarMessage('登录失败，请检查用户名和密码');  // 设置错误消息
                 setSnackbarOpen(true);  // 打开SnackBar
@@ -89,7 +90,7 @@ const LoginPage = () => {
                 TransitionComponent={Slide}
                 onExited={handleSnackbarExited}
             >
-                <Alert onClose={handleSnackbarClose} severity={snackbarSeverity}>
+                <Alert onClose={handleSnackbarClose} severity="error">
                     {snackbarMessage}
                 </Alert>
             </Snackbar>
