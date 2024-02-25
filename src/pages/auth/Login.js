@@ -4,12 +4,12 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {Backdrop, CircularProgress, Grid, Slide, Snackbar} from "@mui/material";
 import {styled} from '@mui/system';
-import './Login.css'
-import axiosInstance from '../base/axios'
+import '../../assets/styles/auth/Login.css'
 import Alert from '@mui/material/Alert';
-import { useNavigate } from 'react-router-dom';
-import API from "../base/config/api";
-import ROUTES from "../base/config/route";
+import {useNavigate} from 'react-router-dom';
+import ROUTES from "../../config/route";
+import useSnackBar from "../../hooks/useSnackBar";
+import {useAuth} from "../../context/useAuth";
 
 const InputContainer = styled('div')({
     marginBottom: '1rem'
@@ -18,30 +18,25 @@ const InputContainer = styled('div')({
 const LoginPage = () => {
 
     const [loading, setLoading] = React.useState(false);
-    const [snackbarOpen, setSnackbarOpen] = React.useState(false);
-    const [snackbarMessage, setSnackbarMessage] = React.useState('');
+    const {snackbarOpen, snackbarMessage, openSnackbar, closeSnackbar} = useSnackBar();
     const navigate = useNavigate();
+
+    const auth = useAuth();
 
     const formik = useFormik({
         initialValues: {
             username: '',
             password: '',
         },
-        onSubmit: async (values)     => {
+        onSubmit: async (values) => {
             setLoading(true)
             try {
-                const response = await axiosInstance.post(API.auth.login, {
-                    username: values.username,
-                    password: values.password,
-                }, {withCredentials: true});
-                console.log('Login successful', response.data);
-                navigate(ROUTES.blog.articlePage, {replace: true});
+                await auth.login(values.username, values.password);
+                navigate(ROUTES.homePage, {replace: true});
             } catch (error) {
-                setSnackbarMessage('登录失败，请检查用户名和密码');  // 设置错误消息
-                setSnackbarOpen(true);  // 打开SnackBar
-                console.error('Login failed', error);
+                openSnackbar('登录失败，请检查用户名和密码');
             } finally {
-                setLoading(false)
+                setLoading(false);
             }
         },
         validate: (values) => {
@@ -59,22 +54,6 @@ const LoginPage = () => {
         },
     });
 
-
-    const handleSnackbarClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setSnackbarOpen(false);
-    };
-
-    const handleSnackbarExited = () => {
-        setSnackbarMessage('');
-    };
-
-    // 处理 Snackbar 消失时重置消息
-
-
     return (
         <>
             {/* 遮罩层 */}
@@ -85,12 +64,11 @@ const LoginPage = () => {
             <Snackbar
                 open={snackbarOpen}
                 autoHideDuration={3000}
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                onClose={handleSnackbarClose}
+                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                onClose={closeSnackbar}
                 TransitionComponent={Slide}
-                onExited={handleSnackbarExited}
             >
-                <Alert onClose={handleSnackbarClose} severity="error">
+                <Alert onClose={closeSnackbar} severity="error" variant="outlined">
                     {snackbarMessage}
                 </Alert>
             </Snackbar>
@@ -138,5 +116,6 @@ const LoginPage = () => {
 
     );
 };
+
 
 export default LoginPage;

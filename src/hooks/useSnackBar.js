@@ -13,7 +13,7 @@ const useSnackbar = () => {
         setSnackbarOpen(false);
     };
 
-    return { snackbarOpen, snackbarMessage, openSnackbar, closeSnackbar };
+    return { snackbarOpen, snackbarMessage, setSnackbarMessage, openSnackbar, closeSnackbar };
 };
 
 export default useSnackbar;

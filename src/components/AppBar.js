@@ -7,10 +7,14 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
-import {useAuth} from "../base/context/useAuth";
+import {useAuth} from "../context/useAuth";
+import {Link as RouterLink} from 'react-router-dom'
+import ROUTES from "../config/route";
 
 export default function ButtonAppBar() {
-  const {isAuthenticated, username} = useAuth();
+  const {isAuthenticated, logout, username} = useAuth();
+
+  console.log('ButtonAppBar isAuthenticated', isAuthenticated)
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -25,7 +29,7 @@ export default function ButtonAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
+            React
           </Typography>
           {isAuthenticated ? (
               <Typography color="inherit">Welcome, {username}
@@ -35,12 +39,13 @@ export default function ButtonAppBar() {
                     color="inherit"
                     aria-label="logout"
                     sx={{mr: 2}}
+                    onClick={logout}
                 >
                   <LogoutIcon/>
                 </IconButton>
               </Typography>
           ) : (
-              <Button color="inherit">Login</Button>
+              <Button component={RouterLink} to={ROUTES.auth.loginPage} color="inherit">Login</Button>
           )}
         </Toolbar>
       </AppBar>

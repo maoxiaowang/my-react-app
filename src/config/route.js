@@ -6,7 +6,8 @@ const ROUTES = {
         registerPage: '/auth/register'
     },
     blog: {
-        articlePage: '/blog/articles'
+        articleListPage: '/blog/articleList',
+        articleCreatePage: '/blog/articleCreate'
     }
 }
 
