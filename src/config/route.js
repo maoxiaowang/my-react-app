@@ -7,7 +7,8 @@ const ROUTES = {
     },
     blog: {
         articleListPage: '/blog/articleList',
-        articleCreatePage: '/blog/articleCreate'
+        articleCreatePage: '/blog/articleCreate',
+        articleDetailPage: '/blog/articleDetail',
     }
 }
 

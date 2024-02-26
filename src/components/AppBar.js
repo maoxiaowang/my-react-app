@@ -11,8 +11,8 @@ import {useAuth} from "../context/useAuth";
 import {Link as RouterLink} from 'react-router-dom'
 import ROUTES from "../config/route";
 
-export default function ButtonAppBar() {
-  const {isAuthenticated, logout, username} = useAuth();
+const ButtonAppBar = React.memo(() => {
+    const {isAuthenticated, logout, username} = useAuth();
 
   console.log('ButtonAppBar isAuthenticated', isAuthenticated)
   return (
@@ -51,4 +51,6 @@ export default function ButtonAppBar() {
       </AppBar>
     </Box>
   );
-}
+});
+
+export default ButtonAppBar;

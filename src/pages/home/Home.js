@@ -47,7 +47,9 @@ const Home = () => {
     return (
         <Container>
             <ButtonAppBar/>
-            <h1>Home</h1>
+            <Typography variant="h4" component={'h1'} sx={{marginY: 2}}>
+                Home
+            </Typography>
             <Grid container spacing={3}>
                 {sections.map((section, index) => (
                     <Grid item key={index} xs={12} sm={6} md={4}>

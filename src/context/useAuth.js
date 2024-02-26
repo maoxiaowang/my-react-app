@@ -1,5 +1,5 @@
 import {createContext, useContext, useEffect, useState} from 'react';
-import axiosInstance from "../services/axios";
+import {axiosInstance, baseAxiosInstance} from "../services/axios";
 import API from "../config/api";
 
 const AuthContext = createContext(null);
@@ -9,10 +9,12 @@ export const AuthProvider = ({children}) => {
     const [username, setUsername] = useState('');
     const [userId, setUserId] = useState(null);
     const [token, setToken] = useState(null);
+    console.log('AuthProvider')
 
     // Get user server state
     useEffect(() => {
         // Get user local state
+        console.log('AuthProvider init')
         axiosInstance.get(API.auth.whoami) // Identification check
             .then(response => {
                 const user = response.data;
@@ -29,7 +31,7 @@ export const AuthProvider = ({children}) => {
 
     // Function to handle login and store tokens in cookies
     const login = (username, password) => {
-        return axiosInstance.post(
+        return baseAxiosInstance.post(
             API.auth.obtainToken, {
                 username: username,
                 password: password,
@@ -43,7 +45,11 @@ export const AuthProvider = ({children}) => {
                     setUserId(data.user.id); // Set userId if available
                     setToken(data.access);
                 }
-            );
+            )
+            .catch(error => {
+                console.error('Login failed:', error);
+                return Promise.reject(error);
+            });
     };
 
     // Function to handle logout and clear cookies

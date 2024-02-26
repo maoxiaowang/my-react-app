@@ -10,6 +10,7 @@ import {useNavigate} from 'react-router-dom';
 import ROUTES from "../../config/route";
 import useSnackBar from "../../hooks/useSnackBar";
 import {useAuth} from "../../context/useAuth";
+import Typography from "@mui/material/Typography";
 
 const InputContainer = styled('div')({
     marginBottom: '1rem'
@@ -29,10 +30,9 @@ const LoginPage = () => {
             password: '',
         },
         onSubmit: async (values) => {
-            setLoading(true)
             try {
-                await auth.login(values.username, values.password);
-                navigate(ROUTES.homePage, {replace: true});
+                await auth.login(values.username, values.password)
+                navigate(ROUTES.homePage, {replace: true})
             } catch (error) {
                 openSnackbar('登录失败，请检查用户名和密码');
             } finally {
@@ -79,7 +79,9 @@ const LoginPage = () => {
                 style={{height: '100vh'}}
             >
                 <Grid item xs={8} sm={6} md={4} lg={3} xl={2}>
-                    <h1>Login</h1>
+                    <Typography variant="h4" component={'h1'} sx={{marginY: 2}}>
+                        Login
+                    </Typography>
                     <form onSubmit={formik.handleSubmit}>
                         <InputContainer>
                             <TextField

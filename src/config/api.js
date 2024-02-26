@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://localhost/api/v1';
+export const BASE_URL = 'https://localhost:8000/api/v1';
 
 const API = {
     auth: {
@@ -9,7 +9,7 @@ const API = {
     },
     blog: {
         articles: '/blog/articles/',
-        article: '/blog/article/'
+        article: '/blog/article/{articleId}/'
     }
 
 };
