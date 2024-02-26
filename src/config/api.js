@@ -5,7 +5,8 @@ const API = {
         obtainToken: '/auth/token/obtain/',
         destroyToken: '/auth/token/destroy/',
         refreshToken: '/auth/token/refresh/',
-        whoami: '/auth/whoami/'
+        whoami: '/auth/whoami/',
+        register: '/auth/register/'
     },
     blog: {
         articles: '/blog/articles/',

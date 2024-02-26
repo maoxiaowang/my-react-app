@@ -1,7 +1,7 @@
 import {Link as RouterLink} from 'react-router-dom';
 import ButtonAppBar from "../../components/AppBar";
 import ROUTES from "../../config/route";
-import {Breadcrumbs, Card, CardContent, Fab, Grid, Link} from "@mui/material";
+import {AlertTitle, Breadcrumbs, Card, CardContent, Fab, Grid, Link} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {useEffect, useState} from "react";
 import {axiosInstance} from "../../services/axios";
@@ -9,7 +9,9 @@ import API from "../../config/api";
 import FullHeightContainer from "../../components/FullHeightContainer";
 import AddIcon from '@mui/icons-material/Add';
 import * as React from "react";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Alert from "@mui/material/Alert";
 
 
 const ArticleListPage = () => {
@@ -78,6 +80,29 @@ const ArticleListPage = () => {
         );
     };
 
+    const NoArticlesMessage = () => {
+        return (
+
+                <Alert severity="info">
+                    <AlertTitle grum>勇士</AlertTitle>
+                    <Typography gutterBottom>
+                        暂时还没有文章，成为第一个发布者吧！
+                    </Typography>
+
+                                    <Button
+                    component={RouterLink}
+                    to={ROUTES.blog.articleCreatePage}
+                    variant="outlined"
+                    color="primary"
+                    size="small"
+                >
+                    去发布
+                </Button>
+                </Alert>
+
+        );
+    };
+
 
     return (
         <FullHeightContainer>
@@ -95,7 +120,7 @@ const ArticleListPage = () => {
                 <Typography color="text.primary">Articles</Typography>
             </Breadcrumbs>
 
-            <ArticleList articles={articles}/>
+            {articles && <ArticleList articles={articles}/> && <NoArticlesMessage />}
             <FloatingActionButton/>
         </FullHeightContainer>
     )

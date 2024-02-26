@@ -2,8 +2,7 @@ import * as React from 'react';
 import {useFormik} from 'formik';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import {Backdrop, CircularProgress, Grid, Slide, Snackbar} from "@mui/material";
-import {styled} from '@mui/system';
+import {Backdrop, CircularProgress, Grid, Link, Slide, Snackbar} from "@mui/material";
 import '../../assets/styles/auth/Login.css'
 import Alert from '@mui/material/Alert';
 import {useNavigate} from 'react-router-dom';
@@ -11,10 +10,9 @@ import ROUTES from "../../config/route";
 import useSnackBar from "../../hooks/useSnackBar";
 import {useAuth} from "../../context/useAuth";
 import Typography from "@mui/material/Typography";
+import InputContainer from "../../components/InputContainer";
+import {Link as RouterLink} from 'react-router-dom';
 
-const InputContainer = styled('div')({
-    marginBottom: '1rem'
-})
 
 const LoginPage = () => {
 
@@ -112,6 +110,12 @@ const LoginPage = () => {
                             </Button>
                         </InputContainer>
                     </form>
+                    <Typography>
+                        没有账号？去
+                        <Link component={RouterLink} to={ROUTES.auth.registerPage} color="primary">
+                            注册
+                        </Link>
+                    </Typography>
                 </Grid>
             </Grid>
         </>

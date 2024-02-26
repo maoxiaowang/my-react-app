@@ -64,9 +64,19 @@ const App = () => {
             closeBackdrop();
             // 对响应错误做点什么
             if (error.response) {
+                if (error.response.status === 400) {
+                    const errData = error.response.data;
+                    Object.keys(errData).forEach((fieldName) => {
+                        const messages = errData[fieldName];
+                        const combinedMessage = messages.join(', ');
+                        openSnackbar(`${fieldName}: ${combinedMessage}`, 'error');
+                    });
+                    return Promise.reject(error)
+                }
                 if (error.response.status === 401) {
                     // 如果响应状态码是 401，执行重定向到登录页面的操作
-                    openSnackbar('请登录')
+                    openSnackbar('请登录');
+                    return Promise.reject(error);
                 } else {
                     openSnackbar(error.response.data.detail, 'error')
                 }
@@ -118,7 +128,7 @@ const App = () => {
                 <Snackbar
                     open={snackbarOpen}
                     autoHideDuration={3000}
-                    anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+                    anchorOrigin={{vertical: 'top', horizontal: 'center'}}
                     onClose={closeSnackbar}
                     TransitionComponent={Slide}
                 >
