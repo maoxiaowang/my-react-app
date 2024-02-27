@@ -9,7 +9,6 @@ import API from "../../config/api";
 import FullHeightContainer from "../../components/FullHeightContainer";
 import AddIcon from '@mui/icons-material/Add';
 import * as React from "react";
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
 
@@ -91,9 +90,9 @@ const ArticleListPage = () => {
                                     <Button
                     component={RouterLink}
                     to={ROUTES.blog.articleCreatePage}
-                    variant="outlined"
+                    variant="contained"
                     color="primary"
-                    size="small"
+                    size="medium"
                 >
                     去发布
                 </Button>
