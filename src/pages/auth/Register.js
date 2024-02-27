@@ -1,19 +1,8 @@
-import React, {useState} from 'react';
-import useSnackBar from "../../hooks/useSnackBar";
-import {useNavigate} from "react-router-dom";
-import {useAuth} from "../../context/useAuth";
+import React, {useEffect, useState} from 'react';
+import {Link as RouterLink, useNavigate} from "react-router-dom";
 import {useFormik} from "formik";
 import ROUTES from "../../config/route";
-import {
-    Backdrop,
-    CircularProgress, Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    Grid,
-    Slide,
-    Snackbar
-} from "@mui/material";
+import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Link} from "@mui/material";
 import Alert from "@mui/material/Alert";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
@@ -34,10 +23,12 @@ const RegistrationSuccessDialog = ({open, onClose}) => {
         <Dialog open={open} onClose={onClose}>
             <DialogTitle>注册成功</DialogTitle>
             <DialogContent>
-                <p>恭喜您，注册成功！</p>
+                <DialogContentText>
+                    恭喜您，注册成功，请登录后继续使用。
+                </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleLoginButtonClick} color="primary">
+                <Button autoFocus onClick={handleLoginButtonClick} color="primary">
                     去登录
                 </Button>
             </DialogActions>
@@ -47,6 +38,7 @@ const RegistrationSuccessDialog = ({open, onClose}) => {
 
 const RegisterPage = () => {
     const [isDialogOpen, setDialogOpen] = useState(false);
+    const navigate = useNavigate();
 
     const formik = useFormik({
         initialValues: {
@@ -61,7 +53,7 @@ const RegisterPage = () => {
                 password1: values.password1,
                 password2: values.password2
             })
-            setDialogOpen(true)
+            setDialogOpen(true);
         },
         validate: (values) => {
             const errors = {};
@@ -83,6 +75,10 @@ const RegisterPage = () => {
             if (values.password2 !== values.password1) {
                 errors.password2 = '两次密码不一致'
             }
+
+            // 更新 formik 的 isValid 属性
+            formik.isValid = Object.keys(errors).length === 0;
+
             return errors;
         },
     });
@@ -144,6 +140,19 @@ const RegisterPage = () => {
                             </Button>
                         </InputContainer>
                     </form>
+
+                    <Typography variant="body1" color="text.secondary">
+                        <Link component={RouterLink} to={ROUTES.auth.loginPage} color="primary" onMouseDown={
+                            (event) => {
+                                // 解决失去焦点导致无法导航的问题
+                                event.preventDefault();
+                                navigate(ROUTES.auth.loginPage, { replace: true });
+                                document.activeElement.blur();
+                            }}
+                        >
+                            去登录
+                        </Link>
+                    </Typography>
                 </Grid>
             </Grid>
 

@@ -132,7 +132,7 @@ const App = () => {
                     onClose={closeSnackbar}
                     TransitionComponent={Slide}
                 >
-                    <Alert onClose={closeSnackbar} severity={snackbarSeverity} variant="outlined">
+                    <Alert onClose={closeSnackbar} severity={snackbarSeverity} variant="filled">
                         {snackbarMessage}
                     </Alert>
                 </Snackbar>

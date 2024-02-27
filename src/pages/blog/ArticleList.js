@@ -84,11 +84,10 @@ const ArticleListPage = () => {
         return (
 
                 <Alert severity="info">
-                    <AlertTitle grum>勇士</AlertTitle>
+                    <AlertTitle grum>Woo</AlertTitle>
                     <Typography gutterBottom>
                         暂时还没有文章，成为第一个发布者吧！
                     </Typography>
-
                                     <Button
                     component={RouterLink}
                     to={ROUTES.blog.articleCreatePage}

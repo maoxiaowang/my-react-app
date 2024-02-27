@@ -110,10 +110,16 @@ const LoginPage = () => {
                             </Button>
                         </InputContainer>
                     </form>
-                    <Typography>
-                        没有账号？去
-                        <Link component={RouterLink} to={ROUTES.auth.registerPage} color="primary">
-                            注册
+                    <Typography variant="body1" color="text.secondary">
+                        没有账号？
+                        <Link component={RouterLink} to={ROUTES.auth.registerPage} color="primary" onMouseDown={
+                            (event) => {
+                                // 解决失去焦点导致无法导航的问题
+                                event.preventDefault();
+                                navigate(ROUTES.auth.registerPage, { replace: true });
+                                document.activeElement.blur();
+                            }}>
+                            去注册
                         </Link>
                     </Typography>
                 </Grid>

@@ -29,9 +29,7 @@ const ArticleCreatePage = () => {
     const handleCreateArticle = async () => {
         try {
             // 发送文章创建请求，将 title 和 content 发送给后端
-            console.log('Before axiosInstance.post');
             await axiosInstance.post(API.blog.articles, {title, content});
-            console.log('After axiosInstance.post');
 
             // 创建成功后，跳转到文章列表页面或其他目标页面
             navigate(ROUTES.blog.articleListPage);
